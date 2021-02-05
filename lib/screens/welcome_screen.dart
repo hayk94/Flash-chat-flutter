@@ -1,4 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:flash_chat/components/logo_hero.dart';
 import 'package:flash_chat/components/rounded_button.dart';
 import 'package:flash_chat/screens/login_screen.dart';
 import 'package:flutter/material.dart';
@@ -44,13 +45,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
           children: <Widget>[
             Row(
               children: <Widget>[
-                Hero(
-                  tag: 'logo',
-                  child: Container(
-                    child: Image.asset('images/logo.png'),
-                    height: 60.0,
-                  ),
-                ),
+                LogoHero(height: 60),
                 TypewriterAnimatedTextKit(
                   text: ['Flash Chat'],
                   textStyle: TextStyle(
