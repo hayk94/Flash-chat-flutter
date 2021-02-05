@@ -77,7 +77,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   .orderBy('createdAt', descending: false)
                   .snapshots(),
               builder: (context, snapshot) {
-                List<Widget> messageWidgets = [];
+                List<MessageBubble> messageWidgets = [];
                 if (!snapshot.hasData) {
                   return Center(
                     child: CircularProgressIndicator(
@@ -90,10 +90,15 @@ class _ChatScreenState extends State<ChatScreen> {
                   final messageText = message.data()['text'];
                   final messageSender = message.data()['sender'];
                   final messageWidget =
-                      Text('$messageText from $messageSender');
+                      MessageBubble(sender: messageSender, text: messageText);
                   messageWidgets.add(messageWidget);
                 }
-                return Column(children: messageWidgets);
+                return Expanded(
+                  child: ListView(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    children: messageWidgets,
+                  ),
+                );
               },
             ),
             Container(
@@ -127,6 +132,44 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class MessageBubble extends StatelessWidget {
+  MessageBubble({this.text, this.sender});
+
+  final String text;
+  final String sender;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Text(
+            sender,
+            style: TextStyle(
+              fontSize: 12,
+              color: Colors.black54,
+            ),
+          ),
+          Material(
+            borderRadius: BorderRadius.circular(30),
+            elevation: 5,
+            color: Colors.lightBlueAccent,
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              child: Text(
+                text,
+                style: TextStyle(fontSize: 15, color: Colors.white),
+              ),
+            ),
+          )
+        ],
       ),
     );
   }
